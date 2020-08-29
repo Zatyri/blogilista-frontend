@@ -3,7 +3,6 @@ import Blog from './components/Blog'
 import blogService from './services/blogs'
 import loginService from './services/login' 
 
-
 const App = () => {
   const [blogs, setBlogs] = useState([])
   const [username, setUsername] = useState('')
@@ -25,7 +24,6 @@ const App = () => {
       setPassword('')
     } catch (ex) {
       console.log('wrong username or password');
-      
     }
     
   }
@@ -43,7 +41,6 @@ const App = () => {
         </input>
       </div>
       <button type="submit">Login</button>
-
     </form>
   )
   
@@ -56,10 +53,7 @@ const App = () => {
       )}
     </div>
   )
-   
-    
   
-
   return (
     <div>
       {user?showBlogs():loginForm()}
