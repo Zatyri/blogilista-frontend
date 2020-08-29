@@ -11,6 +11,7 @@ const App = () => {
   const [title, setTitle] = useState('')
   const [author, setAuthor] = useState('')
   const [url, setUrl] = useState('')
+  const [message, setMessage] = useState('')
 
   useEffect(() => {
     blogService.getAll().then(blogs =>
@@ -30,7 +31,7 @@ const App = () => {
       setUsername('')
       setPassword('')
     } catch (ex) {
-      console.log('wrong username or password');
+      handleMessage('Wrong username or password')
     }
   }
 
@@ -50,17 +51,33 @@ const App = () => {
 
   const handleCreateBlog = async (event) => {
     event.preventDefault()
-    await blogService.post({title, author, url})
-    setTitle('')
-    setAuthor('')
-    setUrl('')
-    blogService.getAll().then(blogs =>
-      setBlogs( blogs ))
+    try{
+      const request = await blogService.post({title, author, url})
+      setTitle('')
+      setAuthor('')
+      setUrl('')
+      blogService.getAll().then(blogs =>
+        setBlogs( blogs ))
+      handleMessage(`A blog "${request.title}" by ${request.author} was created`)
+    } catch(ex) {
+      console.log(ex.message);
+      
+      
+      handleMessage('Error posting blog')
+    }
+  }
+
+  const handleMessage = (text) => {
+    setMessage(text)
+    setTimeout(() => {
+      setMessage('')
+    }, 5000);
   }
 
 
-
   const loginForm = () => (
+    <>
+    <p>{message}</p>
     <form onSubmit={handleLogin}>
       <div>
         Username:
@@ -74,13 +91,15 @@ const App = () => {
       </div>
       <button type="submit">Login</button>
     </form>
+    </>
   )
   
   const showBlogs = () => (
     <div>
         <h2>blogs</h2>
-        {createBlog()}
+        <p>{message}</p>        
         <p>{user.name} is logged in <button onClick={handleLogout}>Logout</button></p>
+        {createBlog()}
         {blogs.map(blog =>
           <Blog key={blog.id} blog={blog} />
       )}
@@ -101,6 +120,7 @@ const App = () => {
 
   return (
     <div>
+      
       {user?showBlogs():loginForm()}
     </div>
   )
