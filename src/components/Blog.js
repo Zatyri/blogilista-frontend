@@ -1,6 +1,7 @@
 import React, {useState} from 'react'
+import blogService from '../services/blogs'
 
-const Blog = ({ blog }) => {
+const Blog = ({ blog, message, update }) => {
 
   const [visible, setVisible] = useState(false)
 
@@ -15,11 +16,23 @@ const Blog = ({ blog }) => {
   const handleClick = () => {
     visible?setVisible(false):setVisible(true)
   }
+
+  const handleAddLike = async () => {
+    const newBlog = {...blog}
+    newBlog.likes += 1
+    newBlog.user = blog.user.id
+    try {
+      await blogService.put(newBlog)
+      update()
+    } catch (error) {
+      message(error.message)
+    }
+  }
   
   const showAll = () => (
     <>
       <p>{blog.url}</p>
-      <p>{blog.likes} <button>like</button></p>
+      <p>{blog.likes} <button onClick={handleAddLike}>like</button></p>
       <p>{blog.user.name}</p>
     </>
   )

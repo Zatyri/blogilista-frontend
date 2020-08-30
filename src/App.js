@@ -89,7 +89,7 @@ const updateBlogs = () => {
           <Createblog handleMessage={handleMessage} updateBlogs={updateBlogs} hide={createBlogRef}/>        
         </Togglable>
         {blogs.map(blog =>
-          <Blog key={blog.id} blog={blog} />
+          <Blog key={blog.id} blog={blog} message={handleMessage} update={updateBlogs}/>
       )}
     </div>
   )
