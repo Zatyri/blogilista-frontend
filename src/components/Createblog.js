@@ -8,8 +8,10 @@ const Createblog = ({ handleMessage, updateBlogs, hide }) => {
 
   const handleCreateBlog = async (event) => {
     event.preventDefault()
+
+    hide.current.toggleVisibility()
+
     try{
-      hide.current.toggleVisibility()
       const request = await blogService.post({ title, author, url })
       setTitle('')
       setAuthor('')
@@ -27,9 +29,9 @@ const Createblog = ({ handleMessage, updateBlogs, hide }) => {
     <div>
       <h2>Create new</h2>
       <form onSubmit={handleCreateBlog}>
-        <div>Title: <input type="text" name="title" value={title} onChange={({ target }) => setTitle(target.value)}></input></div>
-        <div>Author: <input type="text" name="author" value={author} onChange={({ target }) => setAuthor(target.value)}></input></div>
-        <div>URL: <input type="text" name="url" value={url} onChange={({ target }) => setUrl(target.value)}></input></div>
+        <div>Title: <input id="title" type="text" name="title" value={title} onChange={({ target }) => setTitle(target.value)}></input></div>
+        <div>Author: <input id='author' type="text" name="author" value={author} onChange={({ target }) => setAuthor(target.value)}></input></div>
+        <div>URL: <input id='url' type="text" name="url" value={url} onChange={({ target }) => setUrl(target.value)}></input></div>
         <button type="submit">Create</button>
       </form>
     </div>
