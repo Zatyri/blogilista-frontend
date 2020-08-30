@@ -6,9 +6,9 @@ const setToken = newToken => {
   token = `bearer ${newToken}`
 }
 
-const getAll = () => {
-  const request = axios.get(baseUrl)
-  return request.then(response => response.data)
+const getAll = async () => {
+  const request = await axios.get(baseUrl)  
+  return request.data.sort((prev, current) => (prev.likes < current.likes)?1:-1)
 }
 
 const post = async newBlog => {
