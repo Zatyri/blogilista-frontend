@@ -25,4 +25,20 @@ const put = async newBlog => {
   return response
 }
 
-export default { getAll, post, setToken, put }
+const delBlog = async blog => {
+  const confirmation = window.confirm(`Remove blog: ${blog.title} by ${blog.author}`)
+  if(!confirmation){
+    return null
+  }
+
+  const setAuth = {
+    headers: {Authorization: token}
+  }  
+  const url = `${baseUrl}/${blog.id}`
+  const response = await axios.delete(url, setAuth)
+  return response
+ 
+  
+}
+
+export default { getAll, post, setToken, put, delBlog }

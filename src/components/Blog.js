@@ -28,12 +28,25 @@ const Blog = ({ blog, message, update }) => {
       message(error.message)
     }
   }
+
+  const handleDelete = async () => {
+    const blogToDelete = blog
+    try {
+      await blogService.delBlog(blogToDelete)
+      message(`Blog ${blogToDelete.title} was deleted`)
+      update()
+    } catch (error) {
+      message(error.message)
+    }
+    
+  }
   
   const showAll = () => (
     <>
       <p>{blog.url}</p>
       <p>{blog.likes} <button onClick={handleAddLike}>like</button></p>
       <p>{blog.user.name}</p>
+      <button onClick={handleDelete}>delete</button>
     </>
   )
 
