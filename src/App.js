@@ -1,17 +1,20 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useRef } from 'react'
 import Blog from './components/Blog'
 import blogService from './services/blogs'
 import loginService from './services/login' 
+import Createblog from './components/Createblog'
+import Togglable from './components/Togglable'
 
 const App = () => {
   const [blogs, setBlogs] = useState([])
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
   const [user, setUser] = useState(null)
-  const [title, setTitle] = useState('')
-  const [author, setAuthor] = useState('')
-  const [url, setUrl] = useState('')
+  //const [title, setTitle] = useState('')
+  //const [author, setAuthor] = useState('')
+  //const [url, setUrl] = useState('')
   const [message, setMessage] = useState('')
+  const createBlogRef = useRef()
 
   useEffect(() => {
     blogService.getAll().then(blogs =>
@@ -48,7 +51,7 @@ const App = () => {
     window.localStorage.removeItem('userLogin')
     setUser('')
   }
-
+/*
   const handleCreateBlog = async (event) => {
     event.preventDefault()
     try{
@@ -61,11 +64,14 @@ const App = () => {
       handleMessage(`A blog "${request.title}" by ${request.author} was created`)
     } catch(ex) {
       console.log(ex.message);
-      
-      
       handleMessage('Error posting blog')
     }
   }
+*/
+
+const updateBlogs = () => {
+  blogService.getAll().then(blogs => setBlogs( blogs ))  
+}
 
   const handleMessage = (text) => {
     setMessage(text)
@@ -93,19 +99,23 @@ const App = () => {
     </form>
     </>
   )
+
+  
   
   const showBlogs = () => (
     <div>
         <h2>blogs</h2>
         <p>{message}</p>        
         <p>{user.name} is logged in <button onClick={handleLogout}>Logout</button></p>
-        {createBlog()}
+        <Togglable buttonLabel="Show create blog form" ref={createBlogRef}>
+          <Createblog handleMessage={handleMessage} updateBlogs={updateBlogs} hide={createBlogRef}/>        
+        </Togglable>
         {blogs.map(blog =>
           <Blog key={blog.id} blog={blog} />
       )}
     </div>
   )
-
+/*
   const createBlog = () => (
     <div>
       <h2>Create new</h2>
@@ -117,6 +127,7 @@ const App = () => {
       </form>
     </div>
   )
+*/
 
   return (
     <div>
