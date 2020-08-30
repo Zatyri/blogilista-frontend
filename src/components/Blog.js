@@ -51,7 +51,7 @@ const Blog = ({ blog, message, update }) => {
   )
 
   return (
-    <div style={blogStyle}>
+    <div style={blogStyle} className='blogs'>
       {blog.title} {blog.author} <button onClick={handleClick}>{visible?'hide':'show'}</button>
       {visible?showAll():''}
     </div>
