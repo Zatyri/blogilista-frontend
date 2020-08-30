@@ -52,7 +52,7 @@ const Blog = ({ blog, message, update }) => {
 
   return (
     <div style={blogStyle} className='blogs'>
-      {blog.title} {blog.author} <button onClick={handleClick}>{visible?'hide':'show'}</button>
+      {blog.title} {blog.author} <button className='showButton' onClick={handleClick}>{visible?'hide':'show'}</button>
       {visible?showAll():''}
     </div>
   )

@@ -1,19 +1,21 @@
 import React from 'react'
 import '@testing-library/jest-dom/extend-expect'
-import { render } from '@testing-library/react'
+import { render, fireEvent } from '@testing-library/react'
 import Blog from './Blog'
+
+const blog = {
+  title: 'this is a test blog',
+  author: 'Bruce Wayne',
+  url: 'www.test.io',
+  likes: 10,
+  user: {
+    name: 'Batman'
+  }
+}
 
 describe('Test Blog component', () => {
   test('Test that only title and author is shown initially', () => {
-    const blog = {
-      title: 'this is a test blog',
-      author: 'Bruce Wayne',
-      url: 'www.test.io',
-      likes: 10,
-      user: {
-        name: 'Batman'
-      }
-    }
+
     const component = render(
       <Blog blog={blog}/>
     )
@@ -24,4 +26,22 @@ describe('Test Blog component', () => {
     expect(component.container).not.toHaveTextContent(10)
     expect(component.container).not.toHaveTextContent('Batman')
   })
+
+  test('Test that likes, url and poster is shown on "show" button', () => {
+    const component = render(
+      <Blog blog={blog}/>
+    )
+
+    const button = component.getByText('show')
+    fireEvent.click(button)
+
+    expect(component.container).toHaveTextContent('this is a test blog')
+    expect(component.container).toHaveTextContent('Bruce Wayne')
+    expect(component.container).toHaveTextContent('www.test.io')
+    expect(component.container).toHaveTextContent(10)
+    expect(component.container).toHaveTextContent('Batman')
+
+  })
+
+
 })
