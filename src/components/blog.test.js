@@ -43,5 +43,24 @@ describe('Test Blog component', () => {
 
   })
 
+  test('Test that likebutton works', async () => {
+
+    const mockHandler = jest.fn()
+
+    const component = render(
+      <Blog blog={blog} handleLike={mockHandler}/>
+    )
+
+    const showButton = component.getByText('show')
+    fireEvent.click(showButton)
+
+    const likeButton = component.getByText('like')
+    fireEvent.click(likeButton)
+    fireEvent.click(likeButton)
+
+    expect(mockHandler.mock.calls).toHaveLength(2)
+
+  })
+
 
 })
