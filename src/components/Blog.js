@@ -1,4 +1,4 @@
-import React, {useState} from 'react'
+import React, { useState } from 'react'
 import blogService from '../services/blogs'
 
 const Blog = ({ blog, message, update }) => {
@@ -18,7 +18,7 @@ const Blog = ({ blog, message, update }) => {
   }
 
   const handleAddLike = async () => {
-    const newBlog = {...blog}
+    const newBlog = { ...blog }
     newBlog.likes += 1
     newBlog.user = blog.user.id
     try {
@@ -38,9 +38,9 @@ const Blog = ({ blog, message, update }) => {
     } catch (error) {
       message(error.message)
     }
-    
+
   }
-  
+
   const showAll = () => (
     <>
       <p>{blog.url}</p>
@@ -51,10 +51,10 @@ const Blog = ({ blog, message, update }) => {
   )
 
   return (
-  <div style={blogStyle}>
-    {blog.title} {blog.author} <button onClick={handleClick}>{visible?"hide":"show"}</button>
-    {visible?showAll():''}
-  </div>
+    <div style={blogStyle}>
+      {blog.title} {blog.author} <button onClick={handleClick}>{visible?'hide':'show'}</button>
+      {visible?showAll():''}
+    </div>
   )
 }
 
