@@ -32,7 +32,7 @@ const Createblog = ({ handleMessage, updateBlogs, hide }) => {
         <div>Title: <input id="title" type="text" name="title" value={title} onChange={({ target }) => setTitle(target.value)}></input></div>
         <div>Author: <input id='author' type="text" name="author" value={author} onChange={({ target }) => setAuthor(target.value)}></input></div>
         <div>URL: <input id='url' type="text" name="url" value={url} onChange={({ target }) => setUrl(target.value)}></input></div>
-        <button type="submit">Create</button>
+        <button id='submit-Blog-button' type="submit">Create</button>
       </form>
     </div>
 

@@ -23,14 +23,31 @@ describe('Blog app', function() {
 
             cy.contains('Bruce Wayne is logged in' )
             
-          })
-      
-          it('fails with wrong credentials', function() {
+            })
+        
+            it('fails with wrong credentials', function() {
             cy.get('#username').type('batman')
             cy.get('#password').type('robin')
             cy.get('#login-button').click()
 
             cy.contains('Wrong username or password' )
-          })
+        })
     })
-  })
+    describe.only('When logged in', function() {
+        beforeEach(function() {
+            cy.get('#username').type('batman')
+            cy.get('#password').type('catwoman')
+            cy.get('#login-button').click()
+        })
+    
+        it('A blog can be created', function() {
+          cy.get('#createBlog-button').click()
+          cy.get('#title').type('This is a test blog')
+          cy.get('#author').type('Tommy Testman')
+          cy.get('#url').type('www.test.fi')
+          cy.get('#submit-Blog-button').click()
+
+          cy.contains('This is a test blog')
+        })
+      })
+})
