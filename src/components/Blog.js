@@ -38,7 +38,7 @@ const Blog = ({ blog, message, update, handleLike }) => {
       <p>{blog.url}</p>
       <p className='like'>{blog.likes} <button className='like-button'onClick={handleAddLike}>like</button></p>
       <p>{blog.user.name}</p>
-      <button onClick={handleDelete}>delete</button>
+      <button className='delete-button' onClick={handleDelete}>delete</button>
     </>
   )
 

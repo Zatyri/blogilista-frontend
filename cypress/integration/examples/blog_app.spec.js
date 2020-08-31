@@ -33,7 +33,7 @@ describe('Blog app', function() {
             cy.contains('Wrong username or password' )
         })
     })
-    describe.only('When logged in', function() {
+    describe('When logged in', function() {
         beforeEach(function() {
             cy.get('#username').type('batman')
             cy.get('#password').type('catwoman')
@@ -62,9 +62,32 @@ describe('Blog app', function() {
                 .contains('show').click()
                 .get('.like-button').click()
                 
-            cy.get('.like').should('contain', 1)
-            
-            
+            cy.get('.like').should('contain', 1)            
         })
       })
+
+      describe.only('Delete test', function() {
+        beforeEach(function() {
+            cy.get('#username').type('batman')
+            cy.get('#password').type('catwoman')
+            cy.get('#login-button').click()
+
+            cy.get('#createBlog-button').click()
+            cy.get('#title').type('Default test blog')
+            cy.get('#author').type('Tommy Testman')
+            cy.get('#url').type('www.test.fi')
+            cy.get('#submit-Blog-button').click()
+        })
+
+        it('Test if user can delet blog', function() {
+            cy.get('.blogs')
+                .contains('Default test blog')
+                .contains('show').click()
+                .get('.like-button').click()
+                
+            cy.get('.delete-button').click()
+            cy.contains('Default test blog was deleted')      
+        })
+    })
+
 })
