@@ -33,13 +33,14 @@ describe('Blog app', function() {
             cy.contains('Wrong username or password' )
         })
     })
-    describe('When logged in', function() {
+    describe.only('When logged in', function() {
         beforeEach(function() {
             cy.get('#username').type('batman')
             cy.get('#password').type('catwoman')
             cy.get('#login-button').click()
 
             cy.get('#createBlog-button').click()
+            cy.wait(100)
             cy.get('#title').type('Default test blog')
             cy.get('#author').type('Tommy Testman')
             cy.get('#url').type('www.test.fi')
@@ -48,6 +49,7 @@ describe('Blog app', function() {
     
         it('A blog can be created', function() {
           cy.get('#createBlog-button').click()
+          cy.wait(100)
           cy.get('#title').type('Testing blog creation')
           cy.get('#author').type('Tommy Testman')
           cy.get('#url').type('www.test.fi')
@@ -64,9 +66,46 @@ describe('Blog app', function() {
                 
             cy.get('.like').should('contain', 1)            
         })
+        
+        it('Test if blogs are put in like order', function() {
+            cy.get('#createBlog-button').click()
+            cy.wait(100)
+            cy.get('#title').type('Second test blog')
+            cy.get('#author').type('Tommy Testman')
+            cy.get('#url').type('www.test.fi')
+            cy.get('#submit-Blog-button').click()
+
+            cy.get('#createBlog-button').click()
+            cy.wait(100)
+            cy.get('#title').type('Third test blog')
+            cy.get('#author').type('Tommy Testman')
+            cy.get('#url').type('www.test.fi')
+            cy.get('#submit-Blog-button').click()
+
+            cy.get('.blogs')
+            .contains('Default test blog')
+            .contains('show').click()
+            for(let n = 0; n < 10; n++){
+                cy.get('.like-button').click()
+                cy.wait(500)
+            }
+            cy.contains('hide').click()
+
+            cy.get('.blogs')
+            .contains('Second test blog')
+            .contains('show').click()
+            for(let n = 0; n < 15; n++){
+                cy.get('.like-button').click()
+                cy.wait(500)
+            }
+
+            cy.get('.blogs').first().contains('Second test blog')
+            cy.get('.blogs').eq(1).contains('Default test blog')
+            cy.get('.blogs').eq(2).contains('Third test blog')
+        })
       })
 
-      describe.only('Delete test', function() {
+      describe('Delete test', function() {
         beforeEach(function() {
             cy.get('#username').type('batman')
             cy.get('#password').type('catwoman')
